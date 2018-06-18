@@ -47,11 +47,9 @@ static int mti = MT_N + 1;      /**< mti==MT_N+1 means mt[MT_N]
 /**
  * initializes mt[MT_N] with a seed
  */
-static void init_genrand(unsigned long s)
-{
+static void init_genrand(unsigned long s) {
     mt[0] = s & 0xffffffffUL;
-    for (mti = 1; mti < MT_N; mti++)
-    {
+    for (mti = 1; mti < MT_N; mti++) {
         mt[mti] = (1812433253UL * (mt[mti - 1] ^ (mt[mti - 1] >> 30)) + mti);
         /* See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier. */
         /* In the previous versions, MSBs of the seed affect   */
@@ -65,26 +63,22 @@ static void init_genrand(unsigned long s)
 /**
  * generates a random number on [0,0xffffffff]-interval
  */
-static unsigned long genrand_int32(void)
-{
+static unsigned long genrand_int32(void) {
     unsigned long y;
-    static unsigned long mag01[2] = { 0x0UL, MT_MATRIX_A };
+    static unsigned long mag01[2] = {0x0UL, MT_MATRIX_A};
     /* mag01[x] = x * MT_MATRIX_A  for x=0,1 */
 
-    if (mti >= MT_N)
-    {                           /* generate MT_N words at one time */
+    if (mti >= MT_N) {                           /* generate MT_N words at one time */
         int kk;
 
         if (mti == MT_N + 1)    /* if init_genrand() has not been called, */
             init_genrand(5489UL);       /* a default initial seed is used */
 
-        for (kk = 0; kk < MT_N - MT_M; kk++)
-        {
+        for (kk = 0; kk < MT_N - MT_M; kk++) {
             y = (mt[kk] & MT_UPPER_MASK) | (mt[kk + 1] & MT_LOWER_MASK);
             mt[kk] = mt[kk + MT_M] ^ (y >> 1) ^ mag01[y & 0x1UL];
         }
-        for (; kk < MT_N - 1; kk++)
-        {
+        for (; kk < MT_N - 1; kk++) {
             y = (mt[kk] & MT_UPPER_MASK) | (mt[kk + 1] & MT_LOWER_MASK);
             mt[kk] = mt[kk + (MT_M - MT_N)] ^ (y >> 1) ^ mag01[y & 0x1UL];
         }
@@ -108,10 +102,9 @@ static unsigned long genrand_int32(void)
 /**
  * generates a random number on [0,1) with 53-bit resolution
  */
-static double genrand_res53(void)
-{
+static float genrand_res53(void) {
     unsigned long a = genrand_int32() >> 5, b = genrand_int32() >> 6;
-    return (1.0 * a * 67108864.0 + b) * (1.0 / 9007199254740992.0);
+    return (1.0f* a * 67108864.0f + b) * (1.0f / 9007199254740992.0f);
 }
 
 #undef MT_N
@@ -145,8 +138,7 @@ char _mt19937ar_tag[] = "using mt19937ar " MT19937AR_VERSION;
 /**
  * @brief initializes the generator with a seed
  */
-void mt_init_genrand(unsigned long s)
-{
+void mt_init_genrand(unsigned long s) {
     init_genrand(s);
     return;
 }
@@ -154,7 +146,6 @@ void mt_init_genrand(unsigned long s)
 /**
  * @brief generates a random number on [0,1) with 53-bit resolution
  */
-double mt_genrand_res53(void)
-{
+float mt_genrand_res53(void) {
     return genrand_res53();
 }

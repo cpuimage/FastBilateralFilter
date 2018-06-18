@@ -18,6 +18,12 @@
  **/
 
 #include "headersreq.h"
+#if defined(_WIN32)
+#include <windows.h>
+typedef DWORD pid_t;
+pid_t getpid();
+#define _getpid getpid
+#endif
 
 /**
  * \brief Calculating standard deviation of 1D array 
@@ -28,16 +34,16 @@
  * This routine takes 1D input array 'arr' and
  * calculate standard deviation of the array
  */
-double calculatestd(double* arr,int length){
+float calculatestd(float *arr, int length) {
     int i;
-    double mean=0.0,std=0.0;
-    for (i=0; i<length; i++)
-        mean+=arr[i];
-    mean/=length;
-    for (i=0; i<length; i++)
-        std+=((arr[i]-mean)*(arr[i]-mean));
-    std/=length;
-    std=sqrt(std);
+    float mean = 0.0, std = 0.0;
+    for (i = 0; i < length; i++)
+        mean += arr[i];
+    mean /= length;
+    for (i = 0; i < length; i++)
+        std += ((arr[i] - mean) * (arr[i] - mean));
+    std /= length;
+    std = sqrtf(std);
     return std;
 }
 
@@ -51,15 +57,16 @@ double calculatestd(double* arr,int length){
  * This routine adds gaussian noise of standard deviation
  * sigman to the input image
  */
-int addgaussiannoise(double **image, int rows, int columns, double sigman){
-    double a,b,z;
-    mt_init_genrand((unsigned long int) time (NULL) + (unsigned long int) getpid());
-    for (int i=0; i<rows; i++){
-        for (int j=0; j<columns; j++){
+
+int addgaussiannoise(float **image, int rows, int columns, float sigman) {
+    float a, b, z;
+    mt_init_genrand((unsigned long int) time(NULL) + (unsigned long int) getpid());
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
             a = mt_genrand_res53();
             b = mt_genrand_res53();
-            z = sigman * sqrt(-2.0 * log(a)) * cos(2.0 * M_PI * b);
-            image[i][j]+=z;
+            z = sigman * sqrtf(-2.0f * logf(a)) * cosf(2.0f * M_PI * b);
+            image[i][j] += z;
         }
     }
     return EXIT_SUCCESS;

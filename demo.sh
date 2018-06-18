@@ -5,7 +5,7 @@ input="Tiya.jpg"
 sigmas=5
 sigmar=40
 output="Tiya_out.jpg"
-eps=0.001
+eps=0.001f
 
 # Compile FBF Project
 make 

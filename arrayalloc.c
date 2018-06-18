@@ -13,120 +13,120 @@
 
 /**
  * @file arrayalloc.c
- * @brief Memory allocating and deallocating routines for 2D arrays of datatype double and double complex
+ * @brief Memory allocating and deallocating routines for 2D arrays of datatype float and fft_complex
  *
  * @author PRAVIN NAIR  <sreehari1390@gmail.com>
  **/
 
+
 #include "headersreq.h"
-double **alloc_array(int rows, int columns);
-void dealloc_array_fl(double **arr,int m);
-double complex **alloc_array_complex(int rows, int columns);
-void dealloc_array_fl_complex(double complex **arr,int m);
+
+float **alloc_array(int rows, int columns);
+
+void dealloc_array_fl(float **arr, int m);
+
+fft_complex **alloc_array_complex(int rows, int columns);
+
+void dealloc_array_fl_complex(fft_complex **arr, int m);
+
 
 /**
- * \brief Dynamically allocate 2D array of doubles
+ * \brief Dynamically allocate 2D array of floats
  * \param rows      Number of rows
  * \param columns   Number of columns
  * \return pointer to 2D array
  *
  * This routine allocates memory in heap for a 2D
  * array of dimensions rows x columns and datatype
- * double.
+ * float.
  */
-double **alloc_array(int rows, int columns)
-{
-    int i;
-    int j;
-    /* Allocate an array of pointers with size equal to number of rows */
-    double **twoDary = (double **) (calloc(rows,sizeof(double *)));
-    double *currentrow;
- 
-    /* For each row, allocate an array with size equal to number of columns */
-    for ( i = 0; i < rows; i++ ){
-        *(twoDary + i) =  (calloc(columns,sizeof(double)));
-    }
 
-    /* Initialize the 2D array with zeros */
-    for (j = 0; j < rows; j++) {
-        currentrow = *(twoDary + j);
-        for ( i = 0; i < columns; i++ ) {
-            *(currentrow + i) = 0.0;
-        }
+float **alloc_array(int rows, int columns) {
+   
+/* Allocate an array of pointers with size equal to number of rows */
+
+    float **twoDary = (float **) (calloc(rows, sizeof(float *))); 
+
+/* For each row, allocate an array with size equal to number of columns */
+
+    for (int i = 0; i < rows; i++) {
+        *(twoDary + i) = (calloc(columns, sizeof(float)));
     }
+	 
     return twoDary;
 }
 
 
 /**
- * \brief Deallocate dynamically allocated 2D array of doubles
+ * \brief Deallocate dynamically allocated 2D array of floats
  * \param arr       Pointer to 2D array
  * \param m         Number of rows
  *
  * This routine deallocates heap memory allocated for
- * 2D array of rows m and datatype double.
+ * 2D array of rows m and datatype float.
  */
-void dealloc_array_fl(double **arr,int m)
-{
+
+void dealloc_array_fl(float **arr, int m) {
     int k;
-    /* Free memory corresponding to each row */
-    for(k=0;k<m;k++)
-    {
+
+/* Free memory corresponding to each row */
+
+    for (k = 0; k < m; k++) {
         free(arr[k]);
     }
-    /* Free memory corresponding to the array of pointers to rows */
+
+/* Free memory corresponding to the array of pointers to rows */
+
     free(arr);
 }
 
+
 /**
- * \brief Dynamically allocate 2D array of complex doubles
+ * \brief Dynamically allocate 2D array of complex floats
  * \param rows      Number of rows
  * \param columns   Number of columns
  * \return pointer to 2D array
  *
  * This routine allocates memory in heap for a 2D
  * array of dimensions rows x columns and datatype
- * double complex.
+ * fft_complex.
  */
-double complex **alloc_array_complex(int rows, int columns)
-{
-    int i;
-    int j;
-    /* Allocate an array of pointers with size equal to number of rows */
-    double complex **twoDary = (double complex**) (calloc(rows,sizeof(double complex *)));
-    double complex *currentrow;
 
-    /* For each row, allocate an array with size equal to number of columns */
-    for ( i = 0; i < rows; i++ ){
-        *(twoDary + i) =  (calloc(columns,sizeof(double complex)));
-    }
+fft_complex **alloc_array_complex(int rows, int columns) {
+ 
+/* Allocate an array of pointers with size equal to number of rows */
 
-    /* Initialize the 2D array with zeros */
-    for (j = 0; j < rows; j++) {
-        currentrow = *(twoDary + j);
-        for ( i = 0; i < columns; i++ ) {
-            *(currentrow + i) = 0.0+0.0*I;
-        }
-    }
+    fft_complex **twoDary = (fft_complex **) (calloc(rows, sizeof(fft_complex *)));
+ 
+/* For each row, allocate an array with size equal to number of columns */
+
+    for (int i = 0; i < rows; i++) {
+        *(twoDary + i) = (calloc(columns, sizeof(fft_complex)));
+    } 
     return twoDary;
 }
+
+
 /**
- * \brief Deallocate dynamically allocated 2D array of complex doubles
+ * \brief Deallocate dynamically allocated 2D array of complex floats
  * \param arr       Pointer to 2D array
  * \param m         Number of rows
  *
  * This routine deallocates heap memory allocated for
- * 2D array of rows m and datatype double complex.
+ * 2D array of rows m and datatype fft_complex.
  */
-void dealloc_array_fl_complex(double complex **arr,int m)
-{
+
+void dealloc_array_fl_complex(fft_complex **arr, int m) {
     int k;
-    /* Free memory corresponding to each row */
-    for(k=0;k<m;k++)
-    {
+
+/* Free memory corresponding to each row */
+
+    for (k = 0; k < m; k++) {
         free(arr[k]);
     }
-    /* Free memory corresponding to the array of pointers to rows */
+
+/* Free memory corresponding to the array of pointers to rows */
+
     free(arr);
 }
 

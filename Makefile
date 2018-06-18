@@ -1,25 +1,12 @@
-CC = c99 -O3 $(FLAGS)
-LDLIBJPEG=-ljpeg
-LDLIBPNG=-lpng
-LDLIBTIFF=-ltiff
+CC = gcc -O3 $(FLAGS)
 
-LIBS = -lm $(LDLIBJPEG) $(LDLIBPNG) $(LDLIBTIFF)
+LIBS = -lm
 
 SRCS = mt19937ar.c affinity.c arrayalloc.c noisycomputations.c imageio.c maxfilter.c young.c deriche_o3opt.c gnuplot_i.c fastbf.c
  
 SRCS += fastbf_main.c
 
-ifneq ($(LDLIBJPEG),)
-	CJPEG=-DUSE_LIBJPEG
-endif
-ifneq ($(LDLIBPNG),)
-	CPNG=-DUSE_LIBPNG
-endif
-ifneq ($(LDLIBTIFF),)
-	CTIFF=-DUSE_LIBTIFF
-endif
-
-CFLAGS=$(CJPEG) $(CPNG) $(CTIFF) -D_GNU_SOURCE 
+CFLAGS= -D_GNU_SOURCE
 
 ifdef OMP
 LIBS += -fopenmp

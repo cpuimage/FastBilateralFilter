@@ -55,9 +55,9 @@ int core_affinity();
             char filename[50];
             sprintf(filename,"/sys/devices/system/cpu/cpu%d/topology/core_id",i);
             myfile = fopen(filename,"r");
-    	    if (myfile == NULL) {
-		return num_procs;
-    	    }
+            if (myfile == NULL) {
+        return num_procs;
+            }
             fscanf(myfile,"%d",&core_id);
             fclose(myfile);
             if (core_array[core_id]==false) {
@@ -66,14 +66,14 @@ int core_affinity();
                 num_cores++;
             }
         }
-        
+
         /* Fork a parallel region and assign one thread to each physical core */
         int tid, procid;
         omp_set_num_threads(num_cores);
         i=0;
-        #pragma omp parallel private(j) shared(num_procs,proc_array,i)
+#pragma omp parallel private(j) shared(num_procs,proc_array,i)
         {
-            #pragma omp critical
+#pragma omp critical
             {
                 j=1;
                 while(j>0) {
